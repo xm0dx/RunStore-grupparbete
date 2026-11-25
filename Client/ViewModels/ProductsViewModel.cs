@@ -11,8 +11,11 @@ namespace Client.ViewModels;
 public partial class ProductsViewModel : ViewModelBase
 {
     private readonly IProductRepository? _productRepo;
+    private readonly ISupplierRepository? _supplierRepo;
     private readonly MainWindowViewModel? _mainWindowViewModel;
     private string _productId = string.Empty;
+    // id på produkten som redigeras, 0 betyder ny produkt
+    private int _editId;
 
     [ObservableProperty]
     public partial bool ShowDialog { get; set; }
@@ -20,15 +23,36 @@ public partial class ProductsViewModel : ViewModelBase
     [ObservableProperty]
     public partial ObservableCollection<Product> Products { get; set; } = [];
 
+    // leverantörer till comboboxen i formuläret
+    [ObservableProperty]
+    public partial ObservableCollection<Supplier> Suppliers { get; set; } = [];
+
+    // formuläret för ny/ändra produkt
+    [ObservableProperty]
+    public partial bool ShowForm { get; set; }
+
+    [ObservableProperty]
+    public partial string ItemNumber { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial string Name { get; set; } = string.Empty;
+
+    [ObservableProperty]
+    public partial decimal Price { get; set; }
+
+    [ObservableProperty]
+    public partial Supplier? SelectedSupplier { get; set; }
+
     public ProductsViewModel()
     {
         PageTitle = "Våra produkter";
         Init();
     }
-    public ProductsViewModel(IProductRepository repo, MainWindowViewModel mainWindowViewModel)
+    public ProductsViewModel(IProductRepository repo, ISupplierRepository supplierRepo, MainWindowViewModel mainWindowViewModel)
     {
         _mainWindowViewModel = mainWindowViewModel;
         _productRepo = repo;
+        _supplierRepo = supplierRepo;
         PageTitle = "Våra produkter";
 
         Init();
@@ -82,6 +106,15 @@ public partial class ProductsViewModel : ViewModelBase
     private async void Init()
     {
         await LoadProducts();
+        await LoadSuppliers();
+    }
+
+    private async Task LoadSuppliers()
+    {
+        if (_supplierRepo is not null)
+        {
+            Suppliers = new ObservableCollection<Supplier>(await _supplierRepo.ListAllAsync());
+        }
     }
 
     private async Task LoadProducts()
