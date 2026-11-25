@@ -126,6 +126,42 @@ public partial class ProductsViewModel : ViewModelBase
         ShowForm = false;
     }
 
+    [RelayCommand]
+    private async Task Save()
+    {
+        // måste ha artikelnummer, namn och leverantör
+        if (string.IsNullOrWhiteSpace(ItemNumber) || string.IsNullOrWhiteSpace(Name) || SelectedSupplier is null) return;
+
+        try
+        {
+            var product = new Product
+            {
+                Id = _editId,
+                ItemNumber = ItemNumber.Trim(),
+                Name = Name.Trim(),
+                Price = Price,
+                SupplierId = SelectedSupplier.Id
+            };
+
+            if (_editId == 0)
+            {
+                await _productRepo!.AddAsync(product);
+            }
+            else
+            {
+                await _productRepo!.UpdateAsync(product);
+            }
+
+            ShowForm = false;
+            // läs om listan så ändringen syns
+            await LoadProducts();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+    }
+
     private async void Init()
     {
         await LoadProducts();
