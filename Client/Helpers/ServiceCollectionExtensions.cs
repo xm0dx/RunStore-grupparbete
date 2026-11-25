@@ -5,7 +5,6 @@ using Client.ViewModels;
 using Core.Interfaces;
 using Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
-using Core.Entities;
 
 namespace Client.Helpers;
 
