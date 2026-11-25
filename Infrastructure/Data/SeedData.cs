@@ -13,15 +13,18 @@ public class SeedData
         {
             // json har camelCase (itemNumber), klassen har PascalCase (ItemNumber)
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         };
 
         if (!context.Suppliers.Any())
         {
-            var supplierData = File.ReadAllText("../Infrastructure/Data/TestData/suppliers.json");
+            var supplierData = File.ReadAllText(
+                "../../../../Infrastructure/Data/TestData/suppliers.json"
+            );
             var suppliers = JsonSerializer.Deserialize<List<Supplier>>(supplierData, jsonOptions);
 
-            if (suppliers is null) return;
+            if (suppliers is null)
+                return;
 
             context.Suppliers.AddRange(suppliers);
             context.SaveChanges();
@@ -30,12 +33,29 @@ public class SeedData
         // leverantörerna måste finnas först eftersom produkterna har supplierId
         if (!context.Products.Any())
         {
-            var productData = File.ReadAllText("../Infrastructure/Data/TestData/products.json");
+            var productData = File.ReadAllText(
+                "../../../../Infrastructure/Data/TestData/products.json"
+            );
             var products = JsonSerializer.Deserialize<List<Product>>(productData, jsonOptions);
 
-            if (products is null) return;
+            if (products is null)
+                return;
 
             context.Products.AddRange(products);
+            context.SaveChanges();
+        }
+
+        if (!context.SalesOrders.Any())
+        {
+            var orderData = File.ReadAllText(
+                "../../../../Infrastructure/Data/TestData/salesOrders.json"
+            );
+            var orders = JsonSerializer.Deserialize<List<SalesOrder>>(orderData, jsonOptions);
+
+            if (orders is null)
+                return;
+
+            context.SalesOrders.AddRange(orders);
             context.SaveChanges();
         }
     }

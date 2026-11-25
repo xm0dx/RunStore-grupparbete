@@ -16,7 +16,7 @@
 
     <!-- lägg till ny leverantör -->
     <StackPanel Orientation="Horizontal" Spacing="10" Margin="0 30 0 0">
-      <TextBox Classes="form" Width="300" Watermark="Ny leverantör" Text="{Binding NewSupplierName}" />
+      <TextBox Classes="form" Width="300"  Text="{Binding NewSupplierName}" />
       <Button Content="Lägg till" Command="{Binding AddSupplierCommand}" />
     </StackPanel>
 
