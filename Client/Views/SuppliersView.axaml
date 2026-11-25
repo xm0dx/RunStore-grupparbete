@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="using:Client.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="1024" d:DesignHeight="768"
+             x:Class="Client.Views.SuppliersView"
+             x:DataType="vm:SuppliersViewModel">
+
+  <Design.DataContext>
+    <vm:SuppliersViewModel></vm:SuppliersViewModel>
+  </Design.DataContext>
+
+  <StackPanel>
+    <TextBlock Classes="pageTitle" Text="Leverantörer"/>
+
+    <!-- lägg till ny leverantör -->
+    <StackPanel Orientation="Horizontal" Spacing="10" Margin="0 30 0 0">
+      <TextBox Classes="form" Width="300" Watermark="Ny leverantör" Text="{Binding NewSupplierName}" />
+      <Button Content="Lägg till" Command="{Binding AddSupplierCommand}" />
+    </StackPanel>
+
+    <Border BorderBrush="White" BorderThickness="0 0 0 1" Padding="0 30 0 5">
+      <!-- Rubriker -->
+      <Grid ColumnDefinitions="100,*">
+        <Label Grid.Column="0" Content="Id" />
+        <Label Grid.Column="1" Content="Namn" />
+      </Grid>
+    </Border>
+    <ScrollViewer Height="400">
+      <ItemsControl ItemsSource="{Binding Suppliers}" Margin="0 10 0 0">
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Grid ColumnDefinitions="100,*">
+              <Label Grid.Column="0" Content="{Binding Id}" />
+              <Label Grid.Column="1" Content="{Binding Name}" />
+            </Grid>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ItemsControl>
+    </ScrollViewer>
+  </StackPanel>
+</UserControl>
