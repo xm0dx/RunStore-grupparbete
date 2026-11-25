@@ -1,4 +1,5 @@
 using Core.Entities;
+using Infrastructure.Data;
 
 namespace Infrastructure.Repositories;
 
@@ -6,11 +7,13 @@ public class MockCustomerRepository : ICustomerRepository
 {
     public Task<IReadOnlyList<Customer>> ListAllAsync()
     {
-        throw new NotImplementedException();
+        var customers = MockData.Customers.OrderBy(c => c.LastName).ToList();
+        return Task.FromResult<IReadOnlyList<Customer>>(customers);
     }
 
     public Task<Customer?> FindByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        Customer? customer = MockData.Customers.FirstOrDefault(c => c.Id == id);
+        return Task.FromResult(customer);
     }
 }
