@@ -22,7 +22,7 @@ public partial class SalesOrdersViewModel : ViewModelBase
 
     public SalesOrdersViewModel()
     {
-        PageTitle = "Våra produkter";
+        PageTitle = "Våra beställningar";
         Init();
     }
 

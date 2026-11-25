@@ -47,7 +47,7 @@ public partial class App : Application
         var vm = serviceProvider.GetRequiredService<MainWindowViewModel>();
 
         // kör migreringarna och lägger in testdata vid start, avstängt tills vidare
-        var context = serviceProvider.GetRequiredService<RunStoreDbContext>();
+        /*var context = serviceProvider.GetRequiredService<RunStoreDbContext>();
 
         try
         {
@@ -58,7 +58,7 @@ public partial class App : Application
         {
             Console.WriteLine(ex.Message);
             throw;
-        }
+        }*/
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
