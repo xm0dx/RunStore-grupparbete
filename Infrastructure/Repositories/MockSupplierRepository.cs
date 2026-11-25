@@ -4,7 +4,7 @@ using Infrastructure.Data;
 
 namespace Infrastructure.Repositories;
 
-// samma gränssnitt som SupplierRepository men jobbar mot listan i MockData istället för databasen
+// som SupplierRepository men mot listan i MockData
 public class MockSupplierRepository : ISupplierRepository
 {
     public Task<IReadOnlyList<Supplier>> ListAllAsync()

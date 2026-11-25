@@ -41,7 +41,7 @@ public static class MockData
         foreach (var product in products)
         {
             product.Id = id++;
-            // koppla ihop produkten med sin leverantör, i databasen gör Include det jobbet
+            // koppla produkten till sin leverantör
             product.Supplier = Suppliers.FirstOrDefault(s => s.Id == product.SupplierId);
             Products.Add(product);
         }
