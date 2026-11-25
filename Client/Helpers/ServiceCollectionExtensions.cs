@@ -25,6 +25,7 @@ public static class ServiceCollectionExtensions
         collection.AddScoped<IProductRepository, MockProductRepository>();
         collection.AddScoped<ISupplierRepository, MockSupplierRepository>();
         collection.AddScoped<ICustomerRepository, MockCustomerRepository>();
+        collection.AddScoped<ISalesOrderRepository, MockSalesOrderRepository>();
 
         collection.AddSingleton<Func<PageViewsEnum, ViewModelBase>>(c =>
             name =>
