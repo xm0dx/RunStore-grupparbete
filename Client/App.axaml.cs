@@ -46,18 +46,18 @@ public partial class App : Application
         var vm = serviceProvider.GetRequiredService<MainWindowViewModel>();
 
         // kör migreringarna och lägger in testdata vid start, avstängt tills vidare
-        // var context = serviceProvider.GetRequiredService<RunStoreDbContext>();
+        var context = serviceProvider.GetRequiredService<RunStoreDbContext>();
 
-        // try
-        // {
-        //     context.Database.Migrate();
-        //     SeedData.AddData(context);
-        // }
-        // catch (Exception ex)
-        // {
-        //     Console.WriteLine(ex.Message);
-        //     throw;
-        // }
+        try
+        {
+            context.Database.Migrate();
+            SeedData.AddData(context);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
@@ -69,4 +69,4 @@ public partial class App : Application
 
         base.OnFrameworkInitializationCompleted();
     }
-}
+}
