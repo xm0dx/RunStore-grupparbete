@@ -19,7 +19,7 @@
       <Grid ColumnDefinitions="200,200,*,75,75">
         <Label Grid.Column="0" Content="Ordernr" />
         <Label Grid.Column="1" Content="Orderdatum" />
-        <Label Grid.Column="2" Content="KundId" HorizontalAlignment="Right" />
+        <Label Grid.Column="2" Content="Kund" HorizontalAlignment="Right" />
         <Label Grid.Column="3" HorizontalAlignment="Center" />
         <Label Grid.Column="4" HorizontalAlignment="Center" />
       </Grid>
@@ -31,7 +31,11 @@
             <Grid ColumnDefinitions="200,200,*,75,75">
               <Label Grid.Column="0" Content="{Binding OrderNumber}" />
               <Label Grid.Column="1" Content="{Binding OrderDate}" />
-              <Label Grid.Column="2" Content="{Binding CustomerId}" HorizontalAlignment="Right"/>
+              <!-- kundens namn istället för id, Customer sätts i MockData -->
+              <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="5" HorizontalAlignment="Right">
+                <Label Content="{Binding Customer.FirstName}" />
+                <Label Content="{Binding Customer.LastName}" />
+              </StackPanel>
               <Button Grid.Column="3" Classes="icon-edit" Command="{Binding $parent[UserControl].DataContext.EditCommand}" CommandParameter="{Binding Id}" HorizontalAlignment="Center" />
               <Button Grid.Column="4" Classes="icon-delete" HorizontalAlignment="Center" />
             </Grid>
