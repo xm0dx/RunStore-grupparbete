@@ -35,6 +35,7 @@ public partial class App : Application
         var connectionString = builder.Configuration.GetConnectionString("pgsql");
 
         // dbcontext registreras här så vi kan skicka med anslutningssträngen
+        // används inte så länge mock-repositories är registrerade i ServiceCollectionExtensions
         collection.AddDbContext<RunStoreDbContext>(options =>
         {
             options.UseNpgsql(connectionString);
