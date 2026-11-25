@@ -17,8 +17,10 @@ public static class ServiceCollectionExtensions
         collection.AddTransient<HomeViewModel>();
         collection.AddTransient<ProductsViewModel>();
         collection.AddTransient<SuppliersViewModel>();
-        collection.AddScoped<IProductRepository, ProductRepository>();
-        collection.AddScoped<ISupplierRepository, SupplierRepository>();
+        // vi kör mot testdata i minnet (MockData), ingen databas behövs
+        // byt till ProductRepository / SupplierRepository för att köra mot Neon
+        collection.AddScoped<IProductRepository, MockProductRepository>();
+        collection.AddScoped<ISupplierRepository, MockSupplierRepository>();
 
         collection.AddSingleton<Func<PageViewsEnum, ViewModelBase>>(c => name => name switch
         {
