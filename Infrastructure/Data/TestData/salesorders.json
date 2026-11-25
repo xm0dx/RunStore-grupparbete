@@ -1,0 +1,108 @@
+[
+  {
+    "orderNumber": "ORD-2026-001",
+    "orderDate": "2026-11-01T10:30:00Z",
+    "customerId": 1,
+    "items": [
+      {
+        "productId": 1,
+        "quantity": 2,
+        "price": 249.90,
+        "discount": 0.10
+      },
+      {
+        "productId": 3,
+        "quantity": 1,
+        "price": 599.00,
+        "discount": null
+      }
+    ],
+    "invoices": []
+  },
+  {
+    "orderNumber": "ORD-2026-002",
+    "orderDate": "2026-11-01T10:30:00Z",
+    "customerId": 2,
+    "items": [
+      {
+        "productId": 2,
+        "quantity": 5,
+        "price": 89.90,
+        "discount": null
+      },
+      {
+        "productId": 4,
+        "quantity": 2,
+        "price": 349.00,
+        "discount": 0.05
+      }
+    ],
+    "invoices": []
+  },
+  {
+    "orderNumber": "ORD-2026-003",
+    "orderDate": "2026-11-01T10:30:00Z",
+    "customerId": 3,
+    "items": [
+      {
+        "productId": 5,
+        "quantity": 3,
+        "price": 1299.00,
+        "discount": 0.15
+      },
+      {
+        "productId": 1,
+        "quantity": 1,
+        "price": 249.90,
+        "discount": null
+      }
+    ],
+    "invoices": []
+  },
+  {
+    "orderNumber": "ORD-2026-004",
+    "orderDate": "2026-11-01T10:30:00Z",
+    "customerId": 1,
+    "items": [
+      {
+        "productId": 3,
+        "quantity": 4,
+        "price": 599.00,
+        "discount": 0.10
+      },
+      {
+        "productId": 6,
+        "quantity": 2,
+        "price": 199.00,
+        "discount": null
+      }
+    ],
+    "invoices": []
+  },
+  {
+    "orderNumber": "ORD-2026-005",
+    "orderDate": "2026-11-01T10:30:00Z",
+    "customerId": 4,
+    "items": [
+      {
+        "productId": 2,
+        "quantity": 10,
+        "price": 89.90,
+        "discount": 0.20
+      },
+      {
+        "productId": 5,
+        "quantity": 1,
+        "price": 1299.00,
+        "discount": null
+      },
+      {
+        "productId": 4,
+        "quantity": 3,
+        "price": 349.00,
+        "discount": 0.05
+      }
+    ],
+    "invoices": []
+  }
+]

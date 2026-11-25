@@ -24,8 +24,7 @@
                             <TextBlock VerticalAlignment="Center" Text="RunStore" FontSize="20" Foreground="{DynamicResource ForegroundColor}" />
                         </StackPanel>
                         <Button Command="{Binding GoToHomeCommand}" >
-                            <StackPanel Orientation="Horizontal" Spacing="10
-                            ">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
                                 <Label Padding="0 6" FontFamily="{DynamicResource IconFont}" Content="&#xe2c2;" />
                                 <Label Content="Hem" />
                             </StackPanel>
@@ -45,7 +44,13 @@
                         <Button Command="{Binding GoToCustomersCommand}" >
                             <StackPanel Orientation="Horizontal" Spacing="10">
                                 <Label Padding="0 6" FontFamily="{DynamicResource IconFont}" Content="&#xE4D6;" />
-                                <Label Content="Kunder" />
+                                <Label Content="Kunder"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding GoToSalesOrdersCommand}" >
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <Label Padding="0 6" FontFamily="{DynamicResource IconFont}" Content="&#xE2F0;" />
+                                <Label Content="Beställningar"/>
                             </StackPanel>
                         </Button>
                     </StackPanel>
