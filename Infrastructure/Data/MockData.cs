@@ -10,6 +10,8 @@ public static class MockData
 {
     public static List<Supplier> Suppliers { get; } = [];
     public static List<Product> Products { get; } = [];
+    
+    public static List<Customer> Customers { get; } = [];
 
     // static constructor, körs av sig själv första gången någon använder MockData
     static MockData()
@@ -41,6 +43,16 @@ public static class MockData
             // koppla ihop produkten med sin leverantör, i databasen gör Include det jobbet
             product.Supplier = Suppliers.FirstOrDefault(s => s.Id == product.SupplierId);
             Products.Add(product);
+        }
+        
+        //Customers
+        var customerData = File.ReadAllText("../Infrastructure/Data/TestData/customers.json");
+        var customers = JsonSerializer.Deserialize<List<Customer>>(customerData, jsonOptions) ?? [];
+        id = 1;
+        foreach (var customer in customers)
+        {
+            customer.Id = id++;
+            Customers.Add(customer);
         }
     }
 }
