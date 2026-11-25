@@ -140,7 +140,9 @@ public partial class ProductsViewModel : ViewModelBase
                 ItemNumber = ItemNumber.Trim(),
                 Name = Name.Trim(),
                 Price = Price,
-                SupplierId = SelectedSupplier.Id
+                SupplierId = SelectedSupplier.Id,
+                // leverantören måste med, annars blir namnet tomt i listan
+                Supplier = SelectedSupplier
             };
 
             if (_editId == 0)
