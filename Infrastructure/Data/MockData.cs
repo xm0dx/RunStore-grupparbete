@@ -64,7 +64,8 @@ public static class MockData
         foreach (var salesOrder in salesOrders)
         {
             salesOrder.Id = id++;
-            salesOrder.Customer = Customers.First(c => c.Id == salesOrder.CustomerId);
+            // FirstOrDefault så det inte kraschar om kunden saknas i json
+            salesOrder.Customer = Customers.FirstOrDefault(c => c.Id == salesOrder.CustomerId)!;
             SalesOrders.Add(salesOrder);
         }
     }
