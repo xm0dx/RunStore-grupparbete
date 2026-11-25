@@ -5,25 +5,22 @@ leverantörsvy som exempel. Uppgiften och uppdelningen står i `GRUPPARBETE.md`.
 
 ## Komma igång
 
-1. Klona och gå in i Client-mappen:
-   ```
-   git clone https://github.com/xm0dx/RunStore-grupparbete.git
-   cd RunStore-grupparbete/Client
-   ```
-2. Lägg in din egen anslutningssträng till Neon (den hamnar i din hemmapp, inte i repot):
-   ```
-   dotnet user-secrets set "ConnectionStrings:pgsql" "Host=...;Database=runstoredb;Username=...;Password=...;SSL Mode=Require"
-   ```
-3. Skapa tabellerna i din databas:
-   ```
-   dotnet ef database update -p ../Infrastructure -s .
-   ```
-4. Testdata: avkommentera blocket med `context.Database.Migrate()` och `SeedData.AddData(context)`
-   i `App.axaml.cs`, kör appen en gång, kommentera tillbaka.
-5. Kör:
-   ```
-   dotnet run
-   ```
+Appen kör mot testdata i minnet (`Infrastructure/Data/MockData.cs` läser json-filerna i
+`Infrastructure/Data/TestData`). Ingen databas behövs.
+
+```
+git clone https://github.com/xm0dx/RunStore-grupparbete.git
+cd RunStore-grupparbete/Client
+dotnet run
+```
+
+Kör alltid från `Client`-mappen, sökvägen till json-filerna utgår därifrån.
+Ändringar (ny leverantör osv) finns kvar tills appen stängs, sedan läses json om.
+
+Vill man köra mot sin egen Neon-databas istället: sätt anslutningssträngen med
+`dotnet user-secrets set "ConnectionStrings:pgsql" "..."`, kör
+`dotnet ef database update -p ../Infrastructure -s .` och byt till `ProductRepository` och
+`SupplierRepository` i `Client/Helpers/ServiceCollectionExtensions.cs`.
 
 ## Arbetsflöde
 

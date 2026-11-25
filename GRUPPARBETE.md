@@ -64,9 +64,10 @@ private async Task AddSupplier()
 
 ## Mockdata för kunder och beställningar
 
-Tabellerna customers och salesorders är tomma. Istället för att fylla databasen gör man ett
-"låtsas-repository" som returnerar en lista hårdkodad i C#. ViewModeln märker ingen skillnad,
-det är hela poängen med gränssnittet.
+Vi kör utan databas. Produkter och leverantörer läses från json till listor i `MockData` och
+`MockProductRepository` / `MockSupplierRepository` jobbar mot dem. Kunder och beställningar görs på
+samma sätt, med listor hårdkodade i C#. ViewModeln märker ingen skillnad, det är hela poängen med
+gränssnittet.
 
 ```csharp
 // Infrastructure/Repositories/MockCustomerRepository.cs
@@ -83,13 +84,13 @@ public class MockCustomerRepository : ICustomerRepository
 }
 ```
 
-I `ServiceCollectionExtensions` registreras mocken istället för en riktig:
+I `ServiceCollectionExtensions` registreras mocken (så är produkter och leverantörer redan gjorda):
 
 ```csharp
 collection.AddScoped<ICustomerRepository, MockCustomerRepository>();
 ```
 
-När databasen har kunder byter man bara raden till `CustomerRepository`. Inget annat ändras.
+Vill man senare köra mot en riktig databas byter man bara raden till ett EF-repository. Inget annat ändras.
 
 För beställningar: `MockSalesOrderRepository` med några `SalesOrder` som har `Customer` satt
 (så vyn kan visa kundens namn) och ett par `Items`.
@@ -97,9 +98,9 @@ För beställningar: `MockSalesOrderRepository` med några `SalesOrder` som har 
 ## Uppdatera produkt
 
 Produkter har redan Edit-knappen som anropar `FindByIdAsync`. Nästa steg:
-1. `UpdateAsync(Product product)` i `IProductRepository` + `ProductRepository`:
-   `context.Products.Update(product); return await context.SaveChangesAsync() > 0;`
-2. `AddAsync(Product product)` på samma sätt som leverantörer.
+1. `UpdateAsync(Product product)` i `IProductRepository` + `MockProductRepository`: hitta produkten
+   i `MockData.Products` på id och kopiera över värdena (i EF-varianten: `context.Products.Update(product)`).
+2. `AddAsync(Product product)` på samma sätt som i `MockSupplierRepository` (nytt id, sätt `Supplier` från `MockData.Suppliers`).
 3. I `ProductsViewModel`: egenskaper för formuläret (`ItemNumber`, `Name`, `Price`, `SupplierId`),
    `ShowForm` som visar/döljer, `Save`-kommando som väljer Add eller Update beroende på om `Id == 0`.
 4. I vyn: ett `Popup` som i delete-dialogen, med `TextBox Classes="form"` per fält.
@@ -116,7 +117,7 @@ person Avalonia-delen (ViewModel + View). Klar = pull request mot `main`.
 |---|---|---|---|
 | Kunder | `kunder` | `ICustomerRepository` + `MockCustomerRepository` med 5-6 kunder | `CustomersViewModel` + `CustomersView` (lista: namn, e-post, telefon) |
 | Beställningar | `bestallningar` | `ISalesOrderRepository` + `MockSalesOrderRepository` med 4-5 ordrar som har `Customer` och `Items` | `SalesOrdersViewModel` + `SalesOrdersView` (lista: ordernummer, datum, kund, antal rader) |
-| Produkter | `produkter` | `AddAsync` + `UpdateAsync` i `IProductRepository` och `ProductRepository` | formulär i `ProductsViewModel` + `Popup` i `ProductsView`, ComboBox för leverantör |
+| Produkter | `produkter` | `AddAsync` + `UpdateAsync` i `IProductRepository` och `MockProductRepository` | formulär i `ProductsViewModel` + `Popup` i `ProductsView`, ComboBox för leverantör |
 | Leverantörer + ihopkoppling | `leverantorer` | `UpdateAsync` för leverantör + granska andras pull requests | menyknappar, `PageViewsEnum`, DI-rader i `ServiceCollectionExtensions`, `MainWindowViewModel`, testa att allt bygger efter varje merge |
 
 Regler som sparar tid:
