@@ -23,9 +23,18 @@ public partial class MainWindowViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private void GoToHome() => CurrentView = _pageViewFactory!.LoadPageViewModel(Enums.PageViewsEnum.Home);
+    private void GoToHome() =>
+        CurrentView = _pageViewFactory!.LoadPageViewModel(Enums.PageViewsEnum.Home);
+
     [RelayCommand]
-    private void GoToProducts() => CurrentView = _pageViewFactory!.LoadPageViewModel(Enums.PageViewsEnum.Products);
+    private void GoToProducts() =>
+        CurrentView = _pageViewFactory!.LoadPageViewModel(Enums.PageViewsEnum.Products);
+
     [RelayCommand]
-    private void GoToSuppliers() => CurrentView = _pageViewFactory!.LoadPageViewModel(Enums.PageViewsEnum.Suppliers);
+    private void GoToSuppliers() =>
+        CurrentView = _pageViewFactory!.LoadPageViewModel(Enums.PageViewsEnum.Suppliers);
+
+    [RelayCommand]
+    private void GoToSalesOrders() =>
+        CurrentView = _pageViewFactory!.LoadPageViewModel(Enums.PageViewsEnum.SalesOrder);
 }
