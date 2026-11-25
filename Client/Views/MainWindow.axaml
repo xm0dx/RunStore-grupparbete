@@ -47,6 +47,12 @@
                                 <Label Content="Kunder"/>
                             </StackPanel>
                         </Button>
+                        <Button Command="{Binding GoToSalesOrdersCommand}" >
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <Label Padding="0 6" FontFamily="{DynamicResource IconFont}" Content="&#xE2F0;" />
+                                <Label Content="Beställningar"/>
+                            </StackPanel>
+                        </Button>
                     </StackPanel>
                 </Grid>
             </Border>
