@@ -44,7 +44,7 @@
                         </Button>
                         <Button Command="{Binding GoToCustomersCommand}" >
                             <StackPanel Orientation="Horizontal" Spacing="10">
-                                <Label Padding="0 6" FontFamily="{DynamicResource IconFont}" Content="&#xe3b4;" />
+                                <Label Padding="0 6" FontFamily="{DynamicResource IconFont}" Content="&#xE4D6;" />
                                 <Label Content="Kunder" />
                             </StackPanel>
                         </Button>
