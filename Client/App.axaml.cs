@@ -3,10 +3,10 @@ using System.Reflection;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Infrastructure.Data;
 using Client.Helpers;
 using Client.ViewModels;
 using Client.Views;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,27 +46,23 @@ public partial class App : Application
         var vm = serviceProvider.GetRequiredService<MainWindowViewModel>();
 
         // kör migreringarna och lägger in testdata vid start, avstängt tills vidare
-        // var context = serviceProvider.GetRequiredService<RunStoreDbContext>();
-
-        // try
-        // {
-        //     context.Database.Migrate();
-        //     SeedData.AddData(context);
-        // }
-        // catch (Exception ex)
-        // {
-        //     Console.WriteLine(ex.Message);
-        //     throw;
-        // }
+        /*var context = serviceProvider.GetRequiredService<RunStoreDbContext>();
+        try
+        {
+            context.Database.Migrate();
+            SeedData.AddData(context);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+            throw;
+        }*/
 
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
-            desktop.MainWindow = new MainWindow()
-            {
-                DataContext = vm
-            };
+            desktop.MainWindow = new MainWindow() { DataContext = vm };
         }
 
         base.OnFrameworkInitializationCompleted();
     }
-}
+}
