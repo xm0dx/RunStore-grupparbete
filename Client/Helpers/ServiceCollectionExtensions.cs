@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         // byt till ProductRepository / SupplierRepository för att köra mot Neon
         collection.AddScoped<IProductRepository, MockProductRepository>();
         collection.AddScoped<ISupplierRepository, MockSupplierRepository>();
+        collection.AddScoped<ICustomerRepository, MockCustomerRepository>();
 
         collection.AddSingleton<Func<PageViewsEnum, ViewModelBase>>(c => name => name switch
         {
