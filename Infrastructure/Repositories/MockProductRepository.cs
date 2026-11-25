@@ -18,21 +18,21 @@ public class MockProductRepository : IProductRepository
         return Task.FromResult(MockData.Products.FirstOrDefault(p => p.Id == id));
     }
 
-    public async Task<bool> AddAsync(Product product)
+    public Task<bool> AddAsync(Product product)
     {
         try
         {
             product.Id = MockData.Products.Count + 1;
             MockData.Products.Add(product);
-            return true;
+            return Task.FromResult(true);
         }
         catch (Exception)
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 
-    public async Task<bool> UpdateAsync(Product product)
+    public Task<bool> UpdateAsync(Product product)
     {
         var productFound = MockData.Products.Find(p => p.Id == product.Id);
 
@@ -44,11 +44,11 @@ public class MockProductRepository : IProductRepository
             productFound.Price = product.Price;
             productFound.Supplier = product.Supplier;
             productFound.SupplierId = product.SupplierId;
-            return true;
+            return Task.FromResult(true);
         }
         else
         {
-            return false;
+            return Task.FromResult(false);
         }
     }
 }
