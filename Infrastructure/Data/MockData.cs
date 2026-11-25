@@ -11,6 +11,7 @@ public static class MockData
     public static List<Supplier> Suppliers { get; } = [];
     public static List<Product> Products { get; } = [];
 
+    // static constructor, körs av sig själv första gången någon använder MockData
     static MockData()
     {
         var jsonOptions = new JsonSerializerOptions()

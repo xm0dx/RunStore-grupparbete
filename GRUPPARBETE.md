@@ -1,55 +1,46 @@
-# Grupparbete lektion 11, repositories
+# Grupparbete lektion 11
 
-Uppgiften (från lärarens pdf): bygg vidare på RunStore. Gränssnitt + repository för produkter, kunder,
-leverantörer och beställningar, och nya ViewModels + Views i Avalonia.
+Uppgiften från lärarens pdf: bygg vidare på RunStore med repositories för produkter, kunder,
+leverantörer och beställningar, plus nya ViewModels och Views.
 
-Ska gå att visa upp:
-1. Lista alla leverantörer
-2. Lägga till en ny leverantör
-3. Lista alla kunder (mockdata)
-4. Lista alla beställningar (mockdata)
-5. Lägga till och uppdatera en produkt
+Det här ska gå att visa upp:
+1. lista alla leverantörer
+2. lägga till en ny leverantör
+3. lista alla kunder (mockdata)
+4. lista alla beställningar (mockdata)
+5. lägga till och uppdatera en produkt
 
-## Hur allt hänger ihop
+Vi kör utan databas. Testdatan ligger i listor i minnet (`Infrastructure/Data/MockData.cs`).
 
-Samma mönster som produkterna från lektion 10, en gång per entitet:
+## Så hänger det ihop
 
-```
-MainWindow-knapp -> MainWindowViewModel.GoToX -> PageViewsEnum.X -> XViewModel -> IXRepository -> XRepository -> DbContext
-   (axaml)              (Client)                   (Client)          (Client)        (Core)       (Infrastructure)
-```
+Knapp i MainWindow -> MainWindowViewModel.GoToX -> XViewModel -> IXRepository -> MockXRepository
 
-Per entitet behövs alltså fem saker:
+För varje ny sak (kunder, beställningar) behövs:
+1. ett gränssnitt i `Core/Interfaces`, kopiera `ISupplierRepository.cs`
+2. ett mock-repository i `Infrastructure/Repositories`, kopiera `MockSupplierRepository.cs`
+3. en viewmodel i `Client/ViewModels`, kopiera `SuppliersViewModel.cs`
+4. en vy i `Client/Views`, kopiera `SuppliersView.axaml` och `.axaml.cs`
+5. en rad i `PageViewsEnum`, två rader i `ServiceCollectionExtensions`, en GoTo-metod i
+   `MainWindowViewModel` och en knapp i `MainWindow.axaml`. Sök på "Suppliers" så ser ni var.
 
-| Nr | Fil | Projekt | Kopiera från |
-|---|---|---|---|
-| 1 | `Interfaces/IXRepository.cs` | Core | `IProductRepository.cs` |
-| 2 | `Repositories/XRepository.cs` | Infrastructure | `ProductRepository.cs` |
-| 3 | `ViewModels/XViewModel.cs` | Client | `ProductsViewModel.cs` |
-| 4 | `Views/XView.axaml` + `.axaml.cs` | Client | `ProductsView.axaml` |
-| 5 | rad i `PageViewsEnum`, `ServiceCollectionExtensions`, `MainWindowViewModel`, knapp i `MainWindow.axaml` | Client | leta efter "Products" |
+Vyn måste heta samma som viewmodeln fast utan "Model": `CustomersViewModel` -> `CustomersView`.
+Annars hittar ViewLocator den inte.
 
-ViewLocator hittar vyn själv: `SuppliersViewModel` -> `SuppliersView`. Namnen måste matcha.
+## Leverantörer är klara, använd dem som mall
 
-## Leverantörer är redan gjorda som exempel
-
-Titta på dessa filer, det är exakt mallen för resten:
-- `Core/Interfaces/ISupplierRepository.cs`
-- `Infrastructure/Repositories/SupplierRepository.cs`
-- `Client/ViewModels/SuppliersViewModel.cs`
-- `Client/Views/SuppliersView.axaml`
-
-Lägga till funkar så här i repositoryt:
+Lägg till i mock-repositoryt:
 
 ```csharp
-public async Task<bool> AddAsync(Supplier supplier)
+public Task<bool> AddAsync(Supplier supplier)
 {
-    context.Suppliers.Add(supplier);          // läggs i minnet
-    return await context.SaveChangesAsync() > 0;   // skrivs till databasen, true om en rad sparades
+    supplier.Id = MockData.Suppliers.Count + 1;   // nästa id
+    MockData.Suppliers.Add(supplier);
+    return Task.FromResult(true);
 }
 ```
 
-och i viewmodeln:
+Och i viewmodeln:
 
 ```csharp
 [RelayCommand]
@@ -62,73 +53,57 @@ private async Task AddSupplier()
 }
 ```
 
-## Mockdata för kunder och beställningar
+## Kunder och beställningar med mockdata
 
-Vi kör utan databas. Produkter och leverantörer läses från json till listor i `MockData` och
-`MockProductRepository` / `MockSupplierRepository` jobbar mot dem. Kunder och beställningar görs på
-samma sätt, med listor hårdkodade i C#. ViewModeln märker ingen skillnad, det är hela poängen med
-gränssnittet.
+Ett mock-repository är bara en klass med en lista i sig:
 
 ```csharp
-// Infrastructure/Repositories/MockCustomerRepository.cs
 public class MockCustomerRepository : ICustomerRepository
 {
-    private readonly List<Customer> _customers =
-    [
-        new() { Id = 1, FirstName = "Anna", LastName = "Svensson", Email = "anna@mail.com", Phone = "0701234567" },
-        new() { Id = 2, FirstName = "Erik", LastName = "Karlsson", Email = "erik@mail.com" }
-    ];
+    private readonly List<Customer> _customers = new List<Customer>
+    {
+        new Customer { Id = 1, FirstName = "Anna", LastName = "Svensson", Email = "anna@mail.com", Phone = "0701234567" },
+        new Customer { Id = 2, FirstName = "Erik", LastName = "Karlsson", Email = "erik@mail.com" }
+    };
 
     public Task<IReadOnlyList<Customer>> ListAllAsync()
-        => Task.FromResult<IReadOnlyList<Customer>>(_customers);
+    {
+        IReadOnlyList<Customer> list = _customers;
+        return Task.FromResult(list);
+    }
 }
 ```
 
-I `ServiceCollectionExtensions` registreras mocken (så är produkter och leverantörer redan gjorda):
+Registreras i `ServiceCollectionExtensions`:
 
 ```csharp
 collection.AddScoped<ICustomerRepository, MockCustomerRepository>();
 ```
 
-Vill man senare köra mot en riktig databas byter man bara raden till ett EF-repository. Inget annat ändras.
+Beställningar på samma sätt. Sätt `Customer` på varje `SalesOrder` så vyn kan visa kundens namn,
+och lägg ett par `OrderItems` i `Items`.
 
-För beställningar: `MockSalesOrderRepository` med några `SalesOrder` som har `Customer` satt
-(så vyn kan visa kundens namn) och ett par `Items`.
+## Lägga till och uppdatera produkt
 
-## Uppdatera produkt
+Edit-knappen i produktlistan anropar redan `FindByIdAsync`. Kvar att göra:
+1. `AddAsync` och `UpdateAsync` i `IProductRepository` och `MockProductRepository`. Update = hitta
+   produkten på id i `MockData.Products` och skriv över värdena.
+2. I `ProductsViewModel`: egenskaper för formuläret (ItemNumber, Name, Price, SupplierId), en bool
+   `ShowForm`, och ett `Save`-kommando som kör Add om Id är 0 annars Update.
+3. I `ProductsView.axaml`: en Popup till, som delete-dialogen fast med en TextBox per fält.
 
-Produkter har redan Edit-knappen som anropar `FindByIdAsync`. Nästa steg:
-1. `UpdateAsync(Product product)` i `IProductRepository` + `MockProductRepository`: hitta produkten
-   i `MockData.Products` på id och kopiera över värdena (i EF-varianten: `context.Products.Update(product)`).
-2. `AddAsync(Product product)` på samma sätt som i `MockSupplierRepository` (nytt id, sätt `Supplier` från `MockData.Suppliers`).
-3. I `ProductsViewModel`: egenskaper för formuläret (`ItemNumber`, `Name`, `Price`, `SupplierId`),
-   `ShowForm` som visar/döljer, `Save`-kommando som väljer Add eller Update beroende på om `Id == 0`.
-4. I vyn: ett `Popup` som i delete-dialogen, med `TextBox Classes="form"` per fält.
+## Uppdelning, 8 personer i 4 par
 
-Leverantören väljs enklast med en `ComboBox ItemsSource="{Binding Suppliers}" SelectedItem=...`,
-så produktvyn behöver både `IProductRepository` och `ISupplierRepository` i konstruktorn.
+Varje par har en egen branch. En i paret gör Core + Infrastructure, den andra ViewModel + View.
 
-## Förslag på uppdelning i gruppen (8 personer, 4 par)
+- Kunder, branch `kunder`: ICustomerRepository + MockCustomerRepository / CustomersViewModel + CustomersView
+- Beställningar, branch `bestallningar`: ISalesOrderRepository + MockSalesOrderRepository / SalesOrdersViewModel + SalesOrdersView
+- Produkter, branch `produkter`: AddAsync + UpdateAsync i MockProductRepository / formulär i ProductsViewModel + ProductsView
+- Leverantörer + ihopkoppling, branch `leverantorer`: UpdateAsync för leverantör, menyknappar, raderna i
+  PageViewsEnum och ServiceCollectionExtensions, granska pull requests, kolla att allt bygger
 
-Varje par har en egen branch. Inom paret gör en person databasdelen (Core + Infrastructure) och en
-person Avalonia-delen (ViewModel + View). Klar = pull request mot `main`.
-
-| Par | Branch | Person 1 (Core + Infrastructure) | Person 2 (Client) |
-|---|---|---|---|
-| Kunder | `kunder` | `ICustomerRepository` + `MockCustomerRepository` med 5-6 kunder | `CustomersViewModel` + `CustomersView` (lista: namn, e-post, telefon) |
-| Beställningar | `bestallningar` | `ISalesOrderRepository` + `MockSalesOrderRepository` med 4-5 ordrar som har `Customer` och `Items` | `SalesOrdersViewModel` + `SalesOrdersView` (lista: ordernummer, datum, kund, antal rader) |
-| Produkter | `produkter` | `AddAsync` + `UpdateAsync` i `IProductRepository` och `MockProductRepository` | formulär i `ProductsViewModel` + `Popup` i `ProductsView`, ComboBox för leverantör |
-| Leverantörer + ihopkoppling | `leverantorer` | `UpdateAsync` för leverantör + granska andras pull requests | menyknappar, `PageViewsEnum`, DI-rader i `ServiceCollectionExtensions`, `MainWindowViewModel`, testa att allt bygger efter varje merge |
-
-Regler som sparar tid:
-- `PageViewsEnum`, `ServiceCollectionExtensions` och `MainWindowViewModel` ändras bara av paret
-  Leverantörer + ihopkoppling. De andra paren skriver i sin pull request vilka rader som ska in.
-- Ingen pushar direkt till `main`. Pull request, en annan person godkänner, sedan merge.
-- Hämta `main` ofta: `git pull origin main` i din branch så du inte hamnar långt efter.
-
-## Checklista innan man säger klart
-- `dotnet build` utan fel från `Client/`
-- Ny ViewModel registrerad med `AddTransient` och finns i `switch` i ServiceCollectionExtensions
-- Vyn heter samma som viewmodeln minus "Model"
-- Repository registrerat med `AddScoped<IXRepository, XRepository>()`
-- `Include()` där vyn visar något från en annan tabell (`Supplier.Name`, `Customer.FirstName`)
+Bra att hålla sig till:
+- bara paret "ihopkoppling" ändrar i PageViewsEnum, ServiceCollectionExtensions och MainWindowViewModel,
+  de andra skriver i sin pull request vilka rader som ska in
+- ingen pushar till main, pull request och någon annan godkänner
+- kör `dotnet build` i Client innan ni pushar

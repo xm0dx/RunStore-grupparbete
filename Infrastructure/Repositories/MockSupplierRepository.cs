@@ -20,8 +20,8 @@ public class MockSupplierRepository : ISupplierRepository
 
     public Task<bool> AddAsync(Supplier supplier)
     {
-        // nästa lediga id, som en databas skulle göra
-        supplier.Id = MockData.Suppliers.Count == 0 ? 1 : MockData.Suppliers.Max(s => s.Id) + 1;
+        // nästa id, som en databas skulle göra
+        supplier.Id = MockData.Suppliers.Count + 1;
         MockData.Suppliers.Add(supplier);
         return Task.FromResult(true);
     }

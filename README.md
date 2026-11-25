@@ -38,9 +38,6 @@ När delen är klar: öppna en pull request mot `main` på GitHub, låt någon a
 
 ## Mappar
 
-| Mapp | Innehåll |
-|---|---|
-| `Core` | entiteter och gränssnitt (`Interfaces/`) |
-| `Infrastructure` | DbContext, konfigurationsklasser, repositories, migreringar, SeedData |
-| `Client` | Avalonia: ViewModels, Views, DI i `Helpers/ServiceCollectionExtensions.cs` |
-| `Queries` | sql att testa i Neon |
+- `Core`: entiteter och gränssnitt
+- `Infrastructure`: repositories, MockData och json-filerna, plus EF-koden (DbContext, migreringar) om vi vill köra mot databas senare
+- `Client`: Avalonia, ViewModels och Views, DI i `Helpers/ServiceCollectionExtensions.cs`
