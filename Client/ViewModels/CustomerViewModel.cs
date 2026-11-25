@@ -69,8 +69,8 @@ public partial class CustomerViewModel : ViewModelBase
     private async Task Edit(int id)
     {
         // testar FindByIdAsync, skriver bara ut namnet än så länge
-        var product = await _customerRepo!.FindByIdAsync(id);
-        if (product is not null)
+        var customer = await _customerRepo!.FindByIdAsync(id);
+        if (customer is not null)
         {
             Console.WriteLine(Customer);
         }
