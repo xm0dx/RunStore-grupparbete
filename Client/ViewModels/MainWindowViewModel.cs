@@ -28,4 +28,6 @@ public partial class MainWindowViewModel : ViewModelBase
     private void GoToProducts() => CurrentView = _pageViewFactory!.LoadPageViewModel(Enums.PageViewsEnum.Products);
     [RelayCommand]
     private void GoToSuppliers() => CurrentView = _pageViewFactory!.LoadPageViewModel(Enums.PageViewsEnum.Suppliers);
+    [RelayCommand]
+    private void GoToCustomers() => CurrentView = _pageViewFactory!.LoadPageViewModel(Enums.PageViewsEnum.Customers);
 }

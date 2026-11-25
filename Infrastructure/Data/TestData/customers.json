@@ -1,0 +1,77 @@
+[
+  {
+    "firstName": "Anna",
+    "lastName": "Lindqvist",
+    "email": "anna.lindqvist@example.com",
+    "phone": "070-1740605",
+    "addresses": [
+      { "addressLine": "Storgatan 12", "postalCodeId": 1, "addressTypeId": 1 },
+      { "addressLine": "Box 451", "postalCodeId": 1, "addressTypeId": 2 }
+    ]
+  },
+  {
+    "firstName": "Erik",
+    "lastName": "Johansson",
+    "email": "erik.johansson@example.com",
+    "phone": "070-1740612",
+    "addresses": [
+      { "addressLine": "Kungsgatan 8B", "postalCodeId": 2, "addressTypeId": 1 }
+    ]
+  },
+  {
+    "firstName": "Sara",
+    "lastName": "Nilsson",
+    "email": "sara.nilsson@example.se",
+    "phone": null,
+    "addresses": [
+      { "addressLine": "Björkvägen 3", "postalCodeId": 3, "addressTypeId": 1 }
+    ]
+  },
+  {
+    "firstName": "Johan",
+    "lastName": "Andersson",
+    "email": "johan.andersson@example.com",
+    "phone": "070-1740628",
+    "addresses": [
+      { "addressLine": "Drottninggatan 45", "postalCodeId": 2, "addressTypeId": 1 },
+      { "addressLine": "Industrivägen 17", "postalCodeId": 4, "addressTypeId": 2 }
+    ]
+  },
+  {
+    "firstName": "Maria",
+    "lastName": "Karlsson",
+    "email": "maria.karlsson@example.org",
+    "phone": "070-1740633",
+    "addresses": [
+      { "addressLine": "Skolgatan 21", "postalCodeId": 3, "addressTypeId": 1 }
+    ]
+  },
+  {
+    "firstName": "Oskar",
+    "lastName": "Berg",
+    "email": "oskar.berg@example.com",
+    "phone": null,
+    "addresses": [
+      { "addressLine": "Ekbacken 9", "postalCodeId": 4, "addressTypeId": 1 }
+    ]
+  },
+  {
+    "firstName": "Elin",
+    "lastName": "Svensson",
+    "email": "elin.svensson@example.se",
+    "phone": "070-1740647",
+    "addresses": [
+      { "addressLine": "Parkvägen 14", "postalCodeId": 5, "addressTypeId": 1 }
+    ]
+  },
+  {
+    "firstName": "Mohammed",
+    "lastName": "Haddad",
+    "email": "mohammed.haddad@example.com",
+    "phone": "070-1740659",
+    "addresses": [
+      { "addressLine": "Vasagatan 30", "postalCodeId": 1, "addressTypeId": 1 },
+      { "addressLine": "Hamnvägen 2", "postalCodeId": 5, "addressTypeId": 2 }
+    ]
+  }
+]
