@@ -23,4 +23,32 @@ public class ProductRepository(RunStoreDbContext context) : IProductRepository
         // FindAsync letar på primärnyckeln, null om produkten inte finns
         return await _context.Products.FindAsync(id);
     }
+
+    public async Task<bool> AddAsync(Product product)
+    {
+        await _context.Products.AddAsync(product);
+
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> UpdateAsync(Product product)
+    {
+        var productFound = await FindByIdAsync(product.Id);
+
+        if (productFound != null)
+        {
+            productFound.ImageUrl = product.ImageUrl;
+            productFound.ItemNumber = product.ItemNumber;
+            productFound.Name = product.Name;
+            productFound.Price = product.Price;
+            productFound.Supplier = product.Supplier;
+            productFound.SupplierId = product.SupplierId;
+            return await _context.SaveChangesAsync() > 0;
+        }
+        else
+        {
+            return false;
+        }
+
+    }
 }

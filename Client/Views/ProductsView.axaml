@@ -14,6 +14,9 @@
   <StackPanel>
     <TextBlock Classes="pageTitle" Text="Våra produkter"/>
 
+    <!-- knapp för ny produkt -->
+    <Button Classes="form" Content="Ny produkt" Command="{Binding NewProductCommand}" Margin="0 20 0 0" />
+
     <Border BorderBrush="White" BorderThickness="0 0 0 1" Padding="0 50 0 5">
       <!-- Rubriker -->
       <Grid ColumnDefinitions="100,150,*,200,75,75">
@@ -41,6 +44,26 @@
         </ItemsControl.ItemTemplate>
       </ItemsControl>
     </ScrollViewer>
+
+    <!-- formulär för ny/ändra produkt -->
+    <Popup IsOpen="{Binding ShowForm}" Placement="Center">
+      <Border Padding="30" Background="{DynamicResource PrimaryBackgroundColor}" BorderBrush="White" BorderThickness="2" CornerRadius="30">
+        <StackPanel Spacing="10" Width="400">
+          <Label Classes="form" Content="Artikelnr" />
+          <TextBox Classes="form" Text="{Binding ItemNumber}" />
+          <Label Classes="form" Content="Produktnamn" />
+          <TextBox Classes="form" Text="{Binding Name}" />
+          <Label Classes="form" Content="Pris" />
+          <TextBox Classes="form" Text="{Binding Price}" />
+          <Label Classes="form" Content="Leverantör" />
+          <ComboBox ItemsSource="{Binding Suppliers}" SelectedItem="{Binding SelectedSupplier}" DisplayMemberBinding="{Binding Name}" HorizontalAlignment="Stretch" />
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="20" Margin="0 20 0 0">
+            <Button Classes="form" Command="{Binding SaveCommand}">Spara</Button>
+            <Button Classes="warning" Command="{Binding CancelFormCommand}">Avbryt</Button>
+          </StackPanel>
+        </StackPanel>
+      </Border>
+    </Popup>
 
     <Popup IsOpen="{Binding ShowDialog}" Placement="Center">
       <Border Padding="30" Background="{DynamicResource WarningPopUpGradient}" BorderBrush="White" BorderThickness="2" CornerRadius="30">
