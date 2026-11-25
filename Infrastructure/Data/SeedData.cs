@@ -13,7 +13,7 @@ public class SeedData
         {
             // json har camelCase (itemNumber), klassen har PascalCase (ItemNumber)
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
         };
 
         if (!context.Suppliers.Any())
@@ -21,7 +21,8 @@ public class SeedData
             var supplierData = File.ReadAllText("../Infrastructure/Data/TestData/suppliers.json");
             var suppliers = JsonSerializer.Deserialize<List<Supplier>>(supplierData, jsonOptions);
 
-            if (suppliers is null) return;
+            if (suppliers is null)
+                return;
 
             context.Suppliers.AddRange(suppliers);
             context.SaveChanges();
@@ -33,7 +34,8 @@ public class SeedData
             var productData = File.ReadAllText("../Infrastructure/Data/TestData/products.json");
             var products = JsonSerializer.Deserialize<List<Product>>(productData, jsonOptions);
 
-            if (products is null) return;
+            if (products is null)
+                return;
 
             context.Products.AddRange(products);
             context.SaveChanges();

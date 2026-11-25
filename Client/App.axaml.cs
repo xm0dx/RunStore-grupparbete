@@ -3,10 +3,10 @@ using System.Reflection;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
-using Infrastructure.Data;
 using Client.Helpers;
 using Client.ViewModels;
 using Client.Views;
+using Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +35,7 @@ public partial class App : Application
         var connectionString = builder.Configuration.GetConnectionString("pgsql");
 
         // dbcontext registreras här så vi kan skicka med anslutningssträngen
+        // används inte så länge mock-repositories är registrerade i ServiceCollectionExtensions
         collection.AddDbContext<RunStoreDbContext>(options =>
         {
             options.UseNpgsql(connectionString);
