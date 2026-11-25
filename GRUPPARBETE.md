@@ -22,11 +22,11 @@ Knapp i MainWindow -> MainWindowViewModel.GoToX -> XViewModel -> IXRepository ->
 
 | Del | Personer | Filer |
 |---|---|---|
-| Leverantörer + startläge | Mick | ISupplierRepository, SupplierRepository, SuppliersViewModel, SuppliersView, MockData |
+| Startläge | Mick | projektet från lektion 10, MockData, README |
 | Kunder | Marko, Oskar | ICustomerRepository, MockCustomerRepository, CustomerViewModel, CustomerView, customers.json |
 | Beställningar | Jonathan, Alfred | ISalesOrderRepository, MockSalesOrderRepository, SalesOrdersViewModel, SalesOrdersView, salesorders.json |
 | Produkter | Mick, Theo | AddAsync och UpdateAsync i repositories (Theo), formulär i ProductsViewModel och ProductsView (Mick) |
-| Ihopkoppling | mcsnoopys m.fl. | knappar, PageViewsEnum, DI-rader, pull requests |
+| Leverantörer + ihopkoppling | Oliver | ISupplierRepository, MockSupplierRepository, SuppliersViewModel, SuppliersView, knappar, PageViewsEnum, DI-rader |
 
 ## Arbetssätt
 
