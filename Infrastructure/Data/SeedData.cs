@@ -18,9 +18,7 @@ public class SeedData
 
         if (!context.Suppliers.Any())
         {
-            var supplierData = File.ReadAllText(
-                "../../../../Infrastructure/Data/TestData/suppliers.json"
-            );
+            var supplierData = File.ReadAllText("../Infrastructure/Data/TestData/suppliers.json");
             var suppliers = JsonSerializer.Deserialize<List<Supplier>>(supplierData, jsonOptions);
 
             if (suppliers is null)
@@ -33,9 +31,7 @@ public class SeedData
         // leverantörerna måste finnas först eftersom produkterna har supplierId
         if (!context.Products.Any())
         {
-            var productData = File.ReadAllText(
-                "../../../../Infrastructure/Data/TestData/products.json"
-            );
+            var productData = File.ReadAllText("../Infrastructure/Data/TestData/products.json");
             var products = JsonSerializer.Deserialize<List<Product>>(productData, jsonOptions);
 
             if (products is null)
@@ -47,9 +43,7 @@ public class SeedData
 
         if (!context.SalesOrders.Any())
         {
-            var orderData = File.ReadAllText(
-                "../../../../Infrastructure/Data/TestData/salesOrders.json"
-            );
+            var orderData = File.ReadAllText("../Infrastructure/Data/TestData/salesorders.json");
             var orders = JsonSerializer.Deserialize<List<SalesOrder>>(orderData, jsonOptions);
 
             if (orders is null)

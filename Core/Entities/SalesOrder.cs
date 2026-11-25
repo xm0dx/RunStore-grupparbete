@@ -7,8 +7,10 @@ public class SalesOrder : BaseEntity
     public DateTime OrderDate { get; set; } = DateTime.Now;
     public int CustomerId { get; set; }
     public Customer Customer { get; set; } = null!;
+
     // raderna på ordern
     public List<OrderItems> Items { get; set; } = [];
+
     // fakturorna på ordern
     public List<Invoice> Invoices { get; set; } = [];
 }
