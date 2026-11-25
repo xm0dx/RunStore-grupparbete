@@ -5,3 +5,6 @@ obj/
 # anslutningssträngen med lösenord ska inte pushas
 appsettings.json
 AppSettings.json
+
+# rider
+.idea/
