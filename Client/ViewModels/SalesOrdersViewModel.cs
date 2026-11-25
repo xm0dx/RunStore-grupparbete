@@ -41,7 +41,7 @@ public partial class SalesOrdersViewModel : ViewModelBase
         try
         {
             _salesOrderId = id;
-            _mainWindowViewModel!.IsBusy = true;
+            //  _mainWindowViewModel!.IsBusy = true;
             ShowDialog = true;
         }
         catch (Exception ex)
@@ -54,7 +54,7 @@ public partial class SalesOrdersViewModel : ViewModelBase
     private async Task Confirm()
     {
         ShowDialog = false;
-        _mainWindowViewModel!.IsBusy = false;
+        //  _mainWindowViewModel!.IsBusy = false;
     }
 
     [RelayCommand]
@@ -62,14 +62,14 @@ public partial class SalesOrdersViewModel : ViewModelBase
     {
         Console.WriteLine("Jasååå, du ångrar dig, fegis!");
         ShowDialog = false;
-        _mainWindowViewModel!.IsBusy = false;
+        // _mainWindowViewModel!.IsBusy = false;
     }
 
     [RelayCommand]
     private async Task Edit(int id)
     {
         // testar FindByIdAsync, skriver bara ut namnet än så länge
-        var salesOrder = await _salesOrderRepo!.FindByIdAsync(id);
+        /*var salesOrder = await _salesOrderRepo!.FindByIdAsync(id);
         if (salesOrder is not null)
         {
             Console.WriteLine(salesOrder.Name);
@@ -77,7 +77,7 @@ public partial class SalesOrdersViewModel : ViewModelBase
         else
         {
             Console.WriteLine("Hittade inget!!!");
-        }
+        }*/
     }
 
     private async void Init()
@@ -89,7 +89,7 @@ public partial class SalesOrdersViewModel : ViewModelBase
     {
         try
         {
-            _mainWindowViewModel!.IsBusy = true;
+            // _mainWindowViewModel!.IsBusy = true;
             if (_salesOrderRepo is not null)
             {
                 SalesOrders = new ObservableCollection<SalesOrder>(
@@ -104,7 +104,7 @@ public partial class SalesOrdersViewModel : ViewModelBase
         finally
         {
             // laddningssnurran ska alltid stängas av
-            _mainWindowViewModel!.IsBusy = false;
+            //  _mainWindowViewModel!.IsBusy = false;
         }
     }
 }
