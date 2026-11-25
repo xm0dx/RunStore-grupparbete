@@ -2,7 +2,7 @@ using Core.Entities;
 
 namespace Infrastructure.Repositories;
 
-public class CustomerRepository : ICustomerRepository
+public class MockCustomerRepository : ICustomerRepository
 {
     public Task<IReadOnlyList<Customer>> ListAllAsync()
     {
