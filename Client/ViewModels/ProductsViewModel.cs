@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Core.Interfaces;
 using Core.Entities;
@@ -89,18 +90,40 @@ public partial class ProductsViewModel : ViewModelBase
     }
 
     [RelayCommand]
+    private void NewProduct()
+    {
+        // tomt formulär
+        _editId = 0;
+        ItemNumber = string.Empty;
+        Name = string.Empty;
+        Price = 0;
+        SelectedSupplier = null;
+        ShowForm = true;
+    }
+
+    [RelayCommand]
     private async Task Edit(int id)
     {
-        // testar FindByIdAsync, skriver bara ut namnet än så länge
         var product = await _productRepo!.FindByIdAsync(id);
-        if (product is not null)
-        {
-            Console.WriteLine(product.Name);
-        }
-        else
+        if (product is null)
         {
             Console.WriteLine("Hittade inget!!!");
+            return;
         }
+
+        // fyll formuläret med produktens värden
+        _editId = product.Id;
+        ItemNumber = product.ItemNumber;
+        Name = product.Name;
+        Price = product.Price;
+        SelectedSupplier = Suppliers.FirstOrDefault(s => s.Id == product.SupplierId);
+        ShowForm = true;
+    }
+
+    [RelayCommand]
+    private void CancelForm()
+    {
+        ShowForm = false;
     }
 
     private async void Init()
