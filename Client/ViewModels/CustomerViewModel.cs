@@ -72,7 +72,7 @@ public partial class CustomerViewModel : ViewModelBase
         var customer = await _customerRepo!.FindByIdAsync(id);
         if (customer is not null)
         {
-            Console.WriteLine(Customer);
+            Console.WriteLine(customer);
         }
         else
         {
@@ -82,10 +82,10 @@ public partial class CustomerViewModel : ViewModelBase
 
     private async void Init()
     {
-        await LoadProducts();
+        await LoadCustomers();
     }
 
-    private async Task LoadProducts()
+    private async Task LoadCustomers()
     {
         try
         {
